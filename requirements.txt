@@ -1,16 +1,9 @@
-# Image Processing
-opencv-python-headless==4.10.0.84
-pillow
-
-# OCR and AI
+opencv-python-headless
+numpy<2.0.0
 easyocr
 google-genai
 python-dotenv
-
-# Data and UI
 streamlit
-numpy<2.0.0
-
-# Critical for Cloud (CPU only)
+pillow
 torch --index-url https://download.pytorch.org/whl/cpu
 torchvision --index-url https://download.pytorch.org/whl/cpu
