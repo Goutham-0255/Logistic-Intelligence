@@ -29,21 +29,19 @@ class DocumentBrain:
         context = "\n".join([item['text'] for item in raw_text_list])
 
         prompt = f"""
-        Extract these logistics fields into a JSON object: 
-        shipper_name, carrier_name, bol_number, total_weight, and line_items.
+        Extract logistics data into JSON.
+        Fields: shipper_name, carrier_name, bol_number, line_items.
         
         OCR TEXT:
         {context}
         """
 
-        print("📡 Sending to Gemini 2.0 Flash...")
+        # We switch to Flash-Lite for higher free-tier limits
         try:
-            # Use 'gemini-2.0-flash' - this is the standard for the new SDK
             response = self.client.models.generate_content(
-                model='gemini-2.0-flash',
+                model='gemini-2.5-flash-lite',
                 contents=prompt
             )
-
             return response.text
         except Exception as e:
             return f"AI Error: {str(e)}"
