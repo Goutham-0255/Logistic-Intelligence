@@ -29,22 +29,21 @@ class DocumentBrain:
         context = "\n".join([item['text'] for item in raw_text_list])
 
         prompt = f"""
-        Extract logistics data into JSON. 
-        Fields: shipper_name, carrier_name, bol_number, line_items.
+        Extract these logistics fields into a JSON object: 
+        shipper_name, carrier_name, bol_number, total_weight, and line_items.
         
         OCR TEXT:
         {context}
         """
 
-        print("📡 Sending to Gemini...")
+        print("📡 Sending to Gemini 2.0 Flash...")
         try:
-            # Use just the string name. The SDK handles the 'models/' prefix.
-            # If 1.5-flash fails, 'gemini-1.5-flash-latest' is the foolproof backup.
+            # Use 'gemini-2.0-flash' - this is the standard for the new SDK
             response = self.client.models.generate_content(
-                model='gemini-1.5-flash',
+                model='gemini-2.0-flash',
                 contents=prompt
             )
+
             return response.text
         except Exception as e:
-            # If it still fails, let's catch exactly what the model name was
             return f"AI Error: {str(e)}"
