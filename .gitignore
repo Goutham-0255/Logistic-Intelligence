@@ -1,0 +1,4 @@
+.env
+data/processed/*
+temp_upload.jpg
+__pycache__/
