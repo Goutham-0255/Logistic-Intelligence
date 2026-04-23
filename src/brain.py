@@ -29,24 +29,22 @@ class DocumentBrain:
         context = "\n".join([item['text'] for item in raw_text_list])
 
         prompt = f"""
-        Extract the logistics data and the line items from the table in the OCR text.
+        Extract logistics data into JSON. 
+        Fields: shipper_name, carrier_name, bol_number, line_items.
         
-        Return a JSON with these keys:
-        - shipper_name
-        - carrier_name
-        - bol_number
-        - line_items: [ {{ "description": "item name", "quantity": "amount", "weight": "lbs" }} ]
-
         OCR TEXT:
         {context}
         """
 
-        print("📊 Extracting table rows and line items...")
+        print("📡 Sending to Gemini...")
         try:
+            # Use just the string name. The SDK handles the 'models/' prefix.
+            # If 1.5-flash fails, 'gemini-1.5-flash-latest' is the foolproof backup.
             response = self.client.models.generate_content(
-                model='gemini-1.5-flash',  # Try the 1.5 version
+                model='gemini-1.5-flash',
                 contents=prompt
             )
             return response.text
         except Exception as e:
+            # If it still fails, let's catch exactly what the model name was
             return f"AI Error: {str(e)}"
